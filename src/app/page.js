@@ -192,7 +192,7 @@ export default function Home() {
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <FocusGraph />
           <div className="bg-card border border-border p-6 rounded-lg shadow-sm text-foreground">
-            <h2 className="text-lg font-bold mb-4">📅 Today's Summary</h2>
+            <h2 className="text-lg font-bold mb-4">📅 Today&apos;s Summary</h2>
             <ul className="text-md space-y-3">
               <li className="flex justify-between items-center">
                 <span className="text-muted-foreground">✅ Tasks Completed</span>

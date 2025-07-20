@@ -76,7 +76,7 @@ export default function TaskGrid({
             No tasks here!
           </h3>
           <p className="text-muted-foreground mb-6">
-            Click "Add New Task" to get started.
+            Click &quot;Add New Task&quot; to get started.
           </p>
         </div>
       )}
