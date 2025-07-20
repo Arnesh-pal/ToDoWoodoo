@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  name     String?  
+  avatar   String?  
+  password String
+  tasks    Task[]
+  notes    Note[]
+  focusSessions FocusSession[] // ✅ Add this line
+}
+
+
+model Task {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  date        DateTime?
+  createdAt   DateTime @default(now())
+  completed   Boolean  @default(false) // ✅ Ensure this field exists
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model Note {
+  id        String  @id @default(uuid())
+  content   String
+  color     String?  // Optional color for sticky notes
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   // Foreign key for user
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FocusSession {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  date      DateTime @default(now())
+  duration  Int      // Focus time in seconds
+}

@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Define your HSL color variables here */
+    --background: 222.2 84% 4.9%;
+    /* slate-950 */
+    --foreground: 210 40% 98%;
+    /* slate-50 */
+    --card: 222.2 84% 6.9%;
+    /* A slightly lighter slate */
+    --card-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    /* blue-500 */
+    --primary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --border: 217.2 32.6% 17.5%;
+    /* slate-800 */
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
