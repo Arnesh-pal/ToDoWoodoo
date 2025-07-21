@@ -33,4 +33,4 @@ A task manager web application built using **Next.js**, **Tailwind CSS**, and **
 - The task list is saved to and loaded from **local storage**. This ensures that tasks are not lost when you refresh or reopen the app. Tasks are persisted even if you close and reopen the browser.
 
 ## Demo 
-- You can use the demo here: [Task Manager Demo](https://task-manager-six-azure.vercel.app/)
+- You can use the demo here: [Task Manager Demo](https://to-do-woodoo.vercel.app/)
