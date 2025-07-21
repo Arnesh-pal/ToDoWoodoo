@@ -1,215 +1,33 @@
 "use client";
-import { useState, useEffect } from "react";
-import { message } from "antd";
-import Sidebar from "./components/Sidebar";
-import TaskGrid from "./components/TaskGrid";
-import FocusGraph from "./components/FocusGraph";
-import StickyNotes from "./components/StickyNotes";
-import PomodoroTimer from "./components/PomodoroTimer";
-import { FaBars } from "react-icons/fa";
+import Link from "next/link";
+import { FaTasks, FaArrowRight } from "react-icons/fa";
 
-export default function Home() {
-  // State Management
-  const [tasks, setTasks] = useState([]);
-  const [filter, setFilter] = useState("all");
-  const [activeTab, setActiveTab] = useState("all");
-  const [sidebarVisible, setSidebarVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [taskSummary, setTaskSummary] = useState({
-    tasksCompletedToday: 0,
-    focusSessionsToday: 0,
-    totalFocusTime: 0,
-  });
-
-  const handleToggleComplete = async (taskToToggle) => {
-    const updatedTaskData = { ...taskToToggle, completed: !taskToToggle.completed };
-
-    try {
-      const response = await fetch(`/api/tasks/${taskToToggle.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedTaskData), // Send the updated task
-      });
-      if (!response.ok) throw new Error('Failed to update task status');
-
-      const updatedTask = await response.json();
-      setTasks((prevTasks) =>
-        prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
-      );
-    } catch (error) {
-      console.error("Error toggling task complete:", error);
-      message.error('Failed to update task status');
-    }
-  };
-
-  // Data Fetching on Initial Load
-  useEffect(() => {
-    const initialLoad = async () => {
-      setLoading(true);
-      await Promise.all([fetchTasks(), fetchFocusData()]);
-      setLoading(false);
-    };
-    initialLoad();
-
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // --- Core Data Fetching Logic ---
-  const fetchTasks = async () => {
-    try {
-      const res = await fetch("/api/tasks");
-      if (!res.ok) throw new Error("Failed to fetch tasks");
-      const data = await res.json();
-      setTasks(data);
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-      message.error("Failed to load tasks");
-    }
-  };
-
-  const fetchFocusData = async () => {
-    try {
-      const res = await fetch("/api/focus");
-      if (!res.ok) throw new Error("Failed to fetch focus data");
-      const { tasksCompleted, focusData } = await res.json();
-      const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD format
-
-      const tasksToday = tasksCompleted.find((t) => t.createdAt === today)?._count.completed || 0;
-      const focusToday = focusData.find((f) => f.date === today)?._sum.duration || 0;
-
-      setTaskSummary({
-        tasksCompletedToday: tasksToday,
-        focusSessionsToday: focusToday > 0 ? Math.floor(focusToday / 25) : 0,
-        totalFocusTime: focusToday,
-      });
-    } catch (error) {
-      console.error("Error fetching focus data:", error);
-      message.error("Failed to load focus data");
-    }
-  };
-
-  // --- Task C.R.U.D. (Create, Read, Update, Delete) Logic ---
-  const handleAddTask = async (newTaskData) => {
-    try {
-      const response = await fetch('/api/tasks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTaskData),
-      });
-      if (!response.ok) throw new Error('Failed to add task');
-      const savedTask = await response.json();
-      setTasks((prevTasks) => [...prevTasks, savedTask]);
-      message.success('Task added successfully!');
-    } catch (error) {
-      console.error("Error adding task:", error);
-      message.error('Failed to add task');
-    }
-  };
-
-  const handleUpdateTask = async (updatedTaskData) => {
-    try {
-      const response = await fetch(`/api/tasks/${updatedTaskData.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedTaskData),
-      });
-      if (!response.ok) throw new Error('Failed to update task');
-      const updatedTask = await response.json();
-      setTasks((prevTasks) =>
-        prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
-      );
-      message.success('Task updated!');
-    } catch (error) {
-      console.error("Error updating task:", error);
-      message.error('Failed to update task');
-    }
-  };
-
-  const handleDeleteTask = async (taskId) => {
-    try {
-      const response = await fetch(`/api/tasks/${taskId}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) throw new Error('Failed to delete task');
-      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-      message.success('Task deleted.');
-    } catch (error) {
-      console.error("Error deleting task:", error);
-      message.error('Failed to delete task');
-    }
-  };
-
-  // --- Render Method ---
+export default function LandingPage() {
   return (
-    <div className="flex h-screen bg-background">
-      {/* Sidebar for Desktop */}
-      <div className="hidden lg:block lg:w-64">
-        <Sidebar onFilterChange={setFilter} activeTab={activeTab} setActiveTab={setActiveTab} />
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground p-8">
+      <div className="text-center max-w-2xl">
+        <FaTasks className="mx-auto text-primary text-6xl mb-6" />
+        <h1 className="text-5xl md:text-6xl font-bold mb-4">
+          Welcome to ToDoWoodoo
+        </h1>
+        <p className="text-lg text-muted-foreground mb-10">
+          The all-in-one solution for managing tasks, tracking focus with a Pomodoro timer, and jotting down quick thoughts with sticky notes.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            href="/Signup"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-primary-foreground py-3 px-8 rounded-lg font-semibold hover:bg-primary/90 transition-transform transform hover:scale-105"
+          >
+            Get Started <FaArrowRight />
+          </Link>
+          <Link
+            href="/Login"
+            className="w-full sm:w-auto text-muted-foreground font-medium hover:text-foreground transition-colors"
+          >
+            Already have an account?
+          </Link>
+        </div>
       </div>
-
-      {/* Mobile Menu & Sidebar Overlay */}
-      {isMobile && (
-        <>
-          <div className="fixed top-0 left-0 right-0 z-30 flex items-center p-4 bg-background/80 backdrop-blur-sm border-b border-border">
-            <button onClick={() => setSidebarVisible(true)} className="text-foreground p-2 focus:outline-none">
-              <FaBars size={24} />
-            </button>
-            <h1 className="ml-4 text-xl font-bold">Task Manager</h1>
-          </div>
-          {sidebarVisible && (
-            <div id="backdrop" className="fixed inset-0 z-40 bg-black/60" onClick={() => setSidebarVisible(false)}>
-              <div className="w-64 h-full bg-card" onClick={(e) => e.stopPropagation()}>
-                <Sidebar onFilterChange={setFilter} activeTab={activeTab} setActiveTab={setActiveTab} isMobile={isMobile} />
-              </div>
-            </div>
-          )}
-        </>
-      )}
-
-      {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto p-4 lg:p-8 pt-20 lg:pt-8">
-        <h1 className="text-3xl font-bold mb-6">📝 All Tasks</h1>
-
-        <TaskGrid
-          tasks={tasks}
-          filter={filter}
-          onAddTask={handleAddTask}
-          onUpdateTask={handleUpdateTask}
-          onDeleteTask={handleDeleteTask}
-          onToggleComplete={handleToggleComplete} // <-- ADD THIS LINE
-          loading={loading}
-        />
-
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <PomodoroTimer />
-          <StickyNotes />
-        </div>
-
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <FocusGraph />
-          <div className="bg-card border border-border p-6 rounded-lg shadow-sm text-foreground">
-            <h2 className="text-lg font-bold mb-4">📅 Today&apos;s Summary</h2>
-            <ul className="text-md space-y-3">
-              <li className="flex justify-between items-center">
-                <span className="text-muted-foreground">✅ Tasks Completed</span>
-                <span className="font-bold text-green-400 text-lg">{taskSummary.tasksCompletedToday}</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span className="text-muted-foreground">⏳ Focus Sessions</span>
-                <span className="font-bold text-yellow-400 text-lg">{taskSummary.focusSessionsToday}</span>
-              </li>
-              <li className="flex justify-between items-center">
-                <span className="text-muted-foreground">🔥 Total Focus Time</span>
-                <span className="font-bold text-blue-400 text-lg">{taskSummary.totalFocusTime} min</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </main>
     </div>
   );
 }

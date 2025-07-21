@@ -74,7 +74,7 @@ export default function Sidebar({ onFilterChange, activeTab, setActiveTab }) {
 
   const handleSignOut = async () => {
     await signOut({ redirect: false });
-    router.push("/Login");
+    router.push("/");
   };
 
   return (
@@ -126,8 +126,8 @@ export default function Sidebar({ onFilterChange, activeTab, setActiveTab }) {
               setActiveTab(item.id);
             }}
             className={`flex items-center gap-x-3 p-2 rounded-md text-sm font-medium transition-colors ${activeTab === item.id
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
           >
             {item.icon} <span>{item.label}</span>
