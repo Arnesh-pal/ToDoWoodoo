@@ -31,7 +31,7 @@ export default function Login() {
       }
 
       // On success, NextAuth will handle the session and we can redirect
-      router.replace("/");
+      router.replace("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
       setError("An unexpected error occurred. Please try again later.");
