@@ -7,10 +7,9 @@ import taskAnimation from "./animations/task-animation.json";
 
 export default function LandingPage() {
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-indigo-100 via-white to-pink-100 text-foreground p-8 overflow-hidden">
-
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8 overflow-hidden">
       {/* Optional Blurred Blob Background */}
-      <div className="absolute -top-10 -left-10 w-96 h-96 bg-indigo-300 rounded-full opacity-30 blur-3xl animate-pulse z-0"></div>
+      <div className="absolute -top-10 -left-10 w-96 h-96 bg-indigo-500 rounded-full opacity-20 blur-3xl animate-pulse z-0"></div>
 
       {/* Lottie or Icon + Text */}
       <div className="z-10 text-center max-w-2xl">
@@ -18,11 +17,11 @@ export default function LandingPage() {
           <Lottie animationData={taskAnimation} loop={true} />
         </div>
 
-        <h1 className="text-5xl md:text-6xl font-bold mb-4 text-gray-800">
-          Welcome to <span className="text-indigo-600">ToDoWoodoo</span>
+        <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
+          Welcome to <span className="text-indigo-400">ToDoWoodoo</span>
         </h1>
 
-        <p className="text-lg text-muted-foreground mb-10">
+        <p className="text-lg text-gray-300 mb-10">
           Organize tasks, boost focus with Pomodoro, and capture ideas with sticky notes — all in one magical workspace.
         </p>
 
@@ -36,7 +35,7 @@ export default function LandingPage() {
 
           <Link
             href="/Login"
-            className="w-full sm:w-auto text-indigo-700 font-medium hover:underline transition-colors"
+            className="w-full sm:w-auto text-indigo-300 font-medium hover:underline transition-colors"
           >
             Already have an account?
           </Link>
