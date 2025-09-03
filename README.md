@@ -1,6 +1,6 @@
 # Task Manager
 
-A task manager web application built using **Next.js**, **Tailwind CSS**, and **Ant Design**. This app allows users to add, edit, delete, and filter tasks efficiently. The tasks are managed through a backend API built using **Next.js API routes** for seamless server-side integration, and now tasks are also persisted in **local storage** to maintain state across page reloads.
+A Full Stack task manager web application built using **Next.js**, **Tailwind CSS**, and **Ant Design**. This app allows users to add, edit, delete, and filter tasks efficiently. The tasks are managed through a backend API built using **Next.js API routes** for seamless server-side integration, and now tasks are also persisted in **local storage** to maintain state across page reloads.
 
 ## Features
 
